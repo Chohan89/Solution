@@ -5,7 +5,7 @@ import java.sql.*;
 public class MYSQLAccess {
 	
 	// User's credentials 
-	static private String email,password,email_db,password_db;
+	private String email,password,email_db,password_db;
 	
 	// JDBC driver name and database URL
 	static private final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
