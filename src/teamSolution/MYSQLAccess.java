@@ -7,9 +7,12 @@ public class MYSQLAccess {
 	// User's credentials 
 	private String email,password,email_db,password_db;
 	
+	//User's name
+	private String FirstName, LastName;
+	
 	// JDBC driver name and database URL
 	static private final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-	static private final String DB_URL = "jdbc:mysql://localhost:3306/Accounts";
+	static private final String DB_URL = "jdbc:mysql://localhost:3306/SolutionSite";
 	
 	// init JDBC's connection object
 	Connection conn = null;
@@ -64,9 +67,9 @@ public class MYSQLAccess {
 	*/
 
 	@SuppressWarnings("finally")
-	public boolean ValidateUser(String email, String password) {
-		this.email = email.toUpperCase();		
-		this.password = password;
+	public boolean ValidateUser(String Email, String Password) {
+		this.email = Email.toUpperCase();		
+		this.password = Password;
 		String sql = "SELECT * FROM users WHERE email='" + email + "';";		
 		boolean vali =false; //boolean we return
 
@@ -79,12 +82,12 @@ public class MYSQLAccess {
 		while (rs.next()) {
 				
 			// Retrieve by column names in DB
-			email_db = rs.getNString("email");	
-			password_db = rs.getNString("password"); 
+			email_db = rs.getNString("Email");	
+			password_db = rs.getNString("Password"); 
 
 		}//end while
 	
-		if(email_db != null && password_db.equals(password)) {
+		if(email_db != null && password_db.equals(Password)) {
 			System.out.println("Login successful");
 			vali = true;
 		}
@@ -110,4 +113,35 @@ public class MYSQLAccess {
 
 		}
 	}//end ValidateUser
+	
+	
+	/** CreateUser: Will be passed in order -> Email, Password, FirstName, LastName. Call internal methods to connect to db. SQL query to make sure email does not exist.
+	 *  If user is new, do necessary SQL queries to create user. Will call Validate(pass email and password given during creation) to make sure user exists 
+	 *  after SQL insertions. 
+	 */
+	
+	public boolean CreatUser(String Email, String Password, String FirstName, String LastName) {
+		boolean creHappen = false;
+		this.email = Email.toUpperCase();
+		this.password = Password;
+		this.FirstName = FirstName;
+		this.LastName = LastName;
+		String sql = "INSERT INTO Accounts(Email,Password,FirstName,LastName) VALUES(" +email+ "," +password+ "," +FirstName+ "," +LastName+ ");";
+		
+		//establish connection
+		Contact();
+		
+		//TO DO: CREAT METHOD TO SEARCH USER FOR EXISTENCE **THEN CALL IT HERE**
+		
+		return creHappen;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
  }//end class
